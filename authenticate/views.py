@@ -100,6 +100,7 @@ class ChangePassword(View):
         if changed_password.is_valid():
             changed_password.save()
             messages.success(request, "Your Password Changed Successfully...")
+            messages.success(request, "Please login again.")
             return redirect('home')
         else:
             messages.error(request, "You have errors in you form...")
