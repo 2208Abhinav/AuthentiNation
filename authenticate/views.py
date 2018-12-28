@@ -96,7 +96,7 @@ class ChangePassword(View):
     def post(self, request):
         current_user = request.user
         form_data = request.POST
-        changed_password = PasswordChangeForm(data=form_data, instance=current_user)
+        changed_password = PasswordChangeForm(data=form_data, user=current_user)
         if changed_password.is_valid():
             changed_password.save()
             messages.success(request, "Your Password Changed Successfully...")
