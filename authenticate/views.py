@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .custom_authenticators import UpdateUserProfileForm, RegisterUserForm
 from django.contrib import messages
@@ -96,11 +96,13 @@ class ChangePassword(View):
     def post(self, request):
         current_user = request.user
         form_data = request.POST
-        changed_password = PasswordChangeForm(data=form_data, user=current_user)
-        if changed_password.is_valid():
-            changed_password.save()
+        changed_password_profile = PasswordChangeForm(data=form_data, user=current_user)
+        if changed_password_profile.is_valid():
+            changed_password_profile.save()
+            # This keeps the user logged in by updating the session hash.
+            update_session_auth_hash(request, changed_password_profile.user)
             messages.success(request, "Your Password Changed Successfully...")
-            messages.success(request, "Please login again.")
+            # messages.success(request, "Please login again.")
             return redirect('home')
         else:
             messages.error(request, "You have errors in you form...")
