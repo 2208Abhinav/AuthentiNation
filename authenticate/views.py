@@ -26,6 +26,9 @@ class LoginUser(View):
             # This checks if the user exists by checking in the database.
             if user is not None:
                 login(request, user)
+                # Add the following code to set the time for which the
+                # user should be kept logged in.
+                """  request.session.set_expiry(time) """
                 messages.success(request, 'You Have Been Logged In!!')
                 return redirect('home')
             else:
