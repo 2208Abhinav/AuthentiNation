@@ -28,6 +28,8 @@ class LoginUser(View):
                 login(request, user)
                 # Add the following code to set the time for which the
                 # user should be kept logged in.
+                # If the value is 0 the user session will expire when the
+                # user will close the browser.
                 """  request.session.set_expiry(time) """
                 messages.success(request, 'You Have Been Logged In!!')
                 return redirect('home')
